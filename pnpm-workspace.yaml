@@ -10,7 +10,7 @@ catalog:
   "@playwright/test": ^1.62.1
   "@sentry/cloudflare": ^10.66.0
   "@sentry/hono": ^10.66.0
-  hono: ^4.12.34
+  hono: ^4.13.7
   tsx: ^4.23.9
   zod: ^4.0.0
   drizzle-orm: ^0.45.2
