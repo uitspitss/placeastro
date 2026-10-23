@@ -22,8 +22,10 @@ for dir in .agents/skills/*/; do
 done
 
 # lock から外したスキルの .agents/skills が消された後のリンクを掃除する
+# 自分で張ったリンクは消さないよう、このスクリプトが張ったものに限る
 for link in .claude/skills/*; do
-  if [ -L "$link" ] && [ ! -e "$link" ]; then
+  if [ -L "$link" ] && [ ! -e "$link" ] &&
+    [[ "$(readlink "$link")" == ../../.agents/skills/* ]]; then
     rm "$link"
   fi
 done

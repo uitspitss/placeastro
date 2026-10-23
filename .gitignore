@@ -89,8 +89,8 @@ docs/superpowers/
 # エージェントのローカル設定と、第三者配布の vendored skill。
 # どちらもこの製品ではないので追跡しない（各自ローカルに置く前提）。
 # settings.json だけはワークツリーやクラウドのセッションでも効かせるため追跡する
-.claude/*
-!.claude/settings.json
+**/.claude/*
+!/.claude/settings.json
 .agents/
 
 *storybook.log
