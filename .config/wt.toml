@@ -5,4 +5,7 @@ trust = "mise trust"
 install = "ni"
 
 [[pre-start]]
+copy = "wt step copy-ignored"
+
+[[pre-start]]
 portless = "bash scripts/setup-portless-env.sh"

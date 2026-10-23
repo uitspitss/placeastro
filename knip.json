@@ -2,6 +2,8 @@
   "$schema": "https://unpkg.com/knip@latest/schema.json",
   "ignore": [".claude/**"],
   "ignoreBinaries": ["portless", "wrangler"],
+  // AGENTS.md の指示でエージェントが `pnpm exec intent` として呼ぶだけで、コードからは参照しない
+  "ignoreDependencies": ["@tanstack/intent"],
   "rules": {
     "files": "warn",
     "dependencies": "warn",
