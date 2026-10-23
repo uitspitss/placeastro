@@ -1,5 +1,14 @@
 # 開発ルール
 
+<!-- intent-skills:start -->
+## TanStack Router のスキル
+
+- 対象は `apps/web` のルーティング（ルート定義・loader・ナビゲーション・認可ガード・コード分割）だけ
+- 該当する作業では、変更前に `pnpm exec intent list` で一覧を見て
+  `pnpm exec intent load <package>#<skill>` で読み込む
+- Intent が使えないときは代わりを取ってこず、依存が無いことを報告する
+<!-- intent-skills:end -->
+
 ## コード変更後の検証
 
 コードを変更したら、以下を実行してエラーがないことを確認する:
@@ -11,6 +20,15 @@
 
 - `nr dev` で全アプリを同時起動
 - Codex から実行する場合は `nlx turbo run dev --ui=stream` を使う
+
+## エージェント用スキル
+
+- 第三者のスキルは `skills-lock.json` で管理し、本体はコミットしない
+- clone 後に `bash scripts/restore-skills.sh` で復元する
+- **`skills-lock.json` は版を固定しない。** `experimental_install` は commit を指定できず
+  `computedHash` も照合しないので、復元のたびに上流の最新が入る
+- worktrunk のワークツリーには pre-start の `wt step copy-ignored` で
+  メインのワークツリーからコピーされる（対象は `.worktreeinclude`）
 
 ## モノレポ構成
 
@@ -85,3 +103,14 @@
 - `@placeastro/database` は `apps/api` と `apps/web` から参照可能
 - `@placeastro/ui` は `apps/web` から参照可能
 - `@placeastro/api` の型は `apps/web` から `import type` でのみ参照する
+
+<!-- BEGIN:turborepo-agent-rules -->
+
+# This is NOT the Turborepo you know
+
+Turborepo configuration, task behavior, and CLI commands can vary between installed versions and may differ from your training data. Resolve the `turbo` package from this file's directory or relevant workspace; in monorepos, it may not be visible from the repository root. For example, run `node -p "require.resolve('turbo/package.json')"` from a workspace that depends on `turbo`.
+
+Read `docs/README.md` inside that installed package first, then read the relevant pages from its `docs/` directory before changing Turborepo configuration or commands. Heed deprecation notices. These bundled docs match the installed package version and are available without network access.
+
+This block is written and re-added by `turbo` before repository-scoped commands when an AI agent is detected. In the Turborepo source repository, its template is defined in `crates/turborepo-cli/src/cli/agent_guidance.rs`. Removing the managed block while updates are enabled means a later qualifying invocation will add it again. Set `"agentGuidance": false` in the root `turbo.json` or `turbo.jsonc` to opt out; this does not remove an existing block. Keep the block committed with your work to avoid an uncommitted change on the next agent invocation.
+<!-- END:turborepo-agent-rules -->

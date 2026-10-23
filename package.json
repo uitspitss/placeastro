@@ -26,9 +26,15 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@dotenvx/dotenvx": "latest",
+    "@tanstack/intent": "catalog:",
     "knip": "^5.86.0",
     "lefthook": "^2.1.4",
     "turbo": "^2.8.14",
     "typescript": "^5"
+  },
+  "intent": {
+    "skills": [
+      "@tanstack/*"
+    ]
   }
 }
