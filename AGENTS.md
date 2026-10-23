@@ -24,6 +24,15 @@ Before editing files for a substantial task:
 - `nr dev` で全アプリを同時起動
 - Codex から実行する場合は `nlx turbo run dev --ui=stream` を使う
 
+## エージェント用スキル
+
+- 第三者のスキルは `skills-lock.json` で管理し、本体はコミットしない
+- clone 後に `bash scripts/restore-skills.sh` で復元する
+- **`skills-lock.json` は版を固定しない。** `experimental_install` は commit を指定できず
+  `computedHash` も照合しないので、復元のたびに上流の最新が入る
+- worktrunk のワークツリーには pre-start の `wt step copy-ignored` で
+  メインのワークツリーからコピーされる（対象は `.worktreeinclude`）
+
 ## モノレポ構成
 
 - `apps/web` - Vite + React フロントエンド
