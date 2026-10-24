@@ -13,11 +13,10 @@
  */
 // ?? ではなく || 。空文字で渡ってきたときも既定値に落とす
 // （?? だと `http://localhost:` という壊れた URL になる）
-export const E2E_WEB_PORT = process.env.E2E_WEB_PORT || '3100';
-export const E2E_API_PORT = process.env.E2E_API_PORT || '3101';
+export const E2E_PORT = process.env.E2E_PORT || '3100';
 
-export const E2E_BASE_URL = `http://localhost:${E2E_WEB_PORT}`;
-export const E2E_API_URL = `http://localhost:${E2E_API_PORT}`;
+/** API と SPA を同じ Worker が配るので、本番と同じく1つのオリジンになる */
+export const E2E_BASE_URL = `http://localhost:${E2E_PORT}`;
 
 /** vite.config.ts の `base`。SPA はこの配下に配信される */
 export const E2E_APP_BASE = '/docs';

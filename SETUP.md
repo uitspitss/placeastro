@@ -49,27 +49,14 @@ E2E は既定の vars のまま `wrangler dev` を起動するのでサインア
 
 ### Web (`apps/web/.env.local`)
 
-`VITE_API_URL`: 開発時は空（Vite プロキシ経由）。
-
-### 本番ビルドの `VITE_API_URL`
-
-`apps/web/.env.production` は gitignore なのでリポジトリには入っていない。
-ローカルで `vite build` する場合は自分で置く（1行）:
-
-```
-VITE_API_URL=https://placeastro.u7s.dev
-```
-
-CI（`.github/workflows/ci.yml` の `deploy-web`）はこのファイルを持たないので、
-GitHub の **Settings → Secrets and variables → Actions → Variables** に
-`VITE_API_URL` を登録して渡している。秘密ではないので secrets ではなく variables。
-turbo は envMode が strict なので `turbo.json` の build タスクにも
-`"env": ["VITE_API_URL"]` の宣言が要る（無いと黙って空になる）。
+`VITE_API_URL`: 空にする。開発時は Vite のプロキシ経由、本番は同一オリジンへ出す。
 
 ## デプロイ
 
 `main` への push で `.github/workflows/ci.yml` が lint / typecheck / test / E2E を
-通してから API → Web の順にデプロイする。**手元から `wrangler deploy` しないこと。**
+通してから、web をビルドして api の Worker をデプロイする。
+api の Worker が web のビルド成果物（`apps/web/dist`）を静的アセットとして配る
+（[ADR 0001](docs/adr/0001-single-worker-serves-spa.md)）。**手元から `wrangler deploy` しないこと。**
 Cloudflare の API トークンは Actions の `CLOUDFLARE_API_TOKEN` secret にある。
 
 ## 関連ドキュメント

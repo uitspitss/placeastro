@@ -9,10 +9,6 @@ import { defineConfig } from 'vite';
  * portless 未使用時は localhost:8080 にフォールバック。
  */
 function resolveApiTarget(): string {
-  // E2E は固定ポートの wrangler dev を使う（playwright.config.ts が渡す）
-  if (process.env.E2E_API_URL) {
-    return process.env.E2E_API_URL;
-  }
   if (process.env.PORT) {
     try {
       return execFileSync('portless', ['get', 'api'], {
@@ -26,8 +22,8 @@ function resolveApiTarget(): string {
 const apiTarget = resolveApiTarget();
 
 /**
- * 本番は Cloudflare のルート設定が `/docs*` を web、それ以外を api に振り分けて
- * 同一オリジンになる。ローカル（dev / preview）はプロキシでそれを再現する。
+ * 本番は api の Worker が SPA もアセットとして配るので同一オリジンになる。
+ * vite dev はプロキシでそれを再現する。
  */
 const apiProxy = {
   '/api': { target: apiTarget, changeOrigin: true, secure: false },
@@ -53,12 +49,10 @@ export default defineConfig({
   server: {
     proxy: apiProxy,
   },
-  // E2E は `vite preview`（ビルド成果物）に対して走るので、ここにも同じ経路が要る
-  preview: {
-    proxy: apiProxy,
-  },
   build: {
-    outDir: 'dist',
+    // api の Worker がこのディレクトリをアセットとして配る。
+    // `base` と揃えて、ファイルのパスと URL を一致させる
+    outDir: 'dist/docs',
     sourcemap: true,
   },
 });

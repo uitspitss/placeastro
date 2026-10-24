@@ -83,10 +83,11 @@
 - `apps/web` で `nr test:e2e`（前段で `db:e2e:prepare` が走る）。UI は `nr test:e2e:ui`。
   **turbo タスクにも `nr test` にもルートの scripts にも足さない** —
   サーバー起動と DB の状態に依存するのでキャッシュしてはいけない
-- `webServer` は2本。API は `wrangler dev`、web は `vite build && vite preview`。
-  dev サーバーを使わないのは、オンデマンドコンパイルの待ちが
+- `webServer` は1本。web を `vite build` してから apps/api で `wrangler dev` を起動し、
+  本番と同じく api の Worker が API と SPA（アセット）を1つのポートで配る。
+  vite の dev サーバーを使わないのは、オンデマンドコンパイルの待ちが
   「要素が見つからない」として現れて原因が分からなくなるため
-- ポートは web 3100 / API 3101。開発サーバーとずらして、
+- ポートは 3100。開発サーバーとずらして、
   `nr dev` を上げたまま回しても開発用 D1 を見に行かないようにしている
 - **D1 は `--persist-to .wrangler/e2e-state` で開発用の `.wrangler/state` と分ける。**
   `e2e/prepare-db.ts` が毎回このディレクトリを捨てて migration と seed を流し直す
