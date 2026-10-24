@@ -4,6 +4,14 @@
   "compatibility_date": "2024-09-23",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/index.ts",
+  // web のビルド成果物（dist/docs）。一致するパスは Worker を通らずに配信される。
+  // single-page-application にすると API へのナビゲーションまで index.html に
+  // 吸われるので、/docs 配下のフォールバックは routes/spa-routes.ts で行う
+  "assets": {
+    "directory": "../web/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "none"
+  },
 
   // Dev settings (port は portless の PORT 環境変数で自動割当。固定する場合は "port": 8080 を追加)
   "dev": {

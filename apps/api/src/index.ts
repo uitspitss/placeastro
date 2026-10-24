@@ -9,6 +9,7 @@ import { createAuth } from './lib/auth';
 import type { HonoEnv } from './orpc';
 import { placeImageRouter } from './routers/place-image-router';
 import { imageRoutes } from './routes/image-routes';
+import { spaRoutes } from './routes/spa-routes';
 
 export const appRouter = {
   placeImages: placeImageRouter,
@@ -77,8 +78,8 @@ app.use('/api/rpc/*', async (c, next) => {
   await next();
 });
 
-app.get('/', (c) => c.redirect('/docs'));
-
+// imageRoutes の `/:catalogue/:catalogueNumber` が `/docs/*` にも一致するので先に置く
+app.route('/', spaRoutes);
 app.route('/', imageRoutes);
 
 export default app;

@@ -23,6 +23,11 @@ jobs:
       - run: nr typecheck
       - run: nr test
       - run: nr build
+      # api の Worker は web のビルド成果物をアセットとして持つので、
+      # assets.directory のずれなどの設定ミスをここで拾う
+      - name: Deploy dry-run
+        working-directory: apps/api
+        run: nr deploy:dry-run
       - run: nr build-storybook
       - run: nr knip
 
@@ -40,7 +45,7 @@ jobs:
         run: na exec playwright install --with-deps chromium
 
       # ここで nr build しないのは、web のビルドを playwright の webServer が
-      # E2E 用の VITE_API_URL 付きで行うため
+      # VITE_API_URL を空にして行うため
       - name: Run E2E tests
         working-directory: apps/web
         run: nr test:e2e
@@ -55,7 +60,7 @@ jobs:
 
   # 別ワークフローに分けると needs が使えず workflow_run 越しになる。
   # 検証ステップを両方で二重に回すことになるのでここに同居させている
-  deploy-api:
+  deploy:
     needs: [ci, e2e]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -63,37 +68,10 @@ jobs:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v2
       - run: nci
+      # api の Worker が web のビルド成果物（apps/web/dist）をアセットとして配る
+      - run: nlx turbo run build --filter=@placeastro/web
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: apps/api
-          command: deploy --env production
-
-  deploy-web:
-    needs: [deploy-api]
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      # 空でも本番は同一オリジンで動いてしまうので、ここで落とさないと
-      # 設定漏れに気づけない。install より前に置いて即座に失敗させる
-      - name: VITE_API_URL が設定されているか確認
-        env:
-          VITE_API_URL: ${{ vars.VITE_API_URL }}
-        run: |
-          if [ -z "$VITE_API_URL" ]; then
-            echo "::error::Actions Variables に VITE_API_URL がありません（Settings → Secrets and variables → Actions → Variables）"
-            exit 1
-          fi
-      - uses: actions/checkout@v7
-      - uses: jdx/mise-action@v2
-      - run: nci
-      # apps/web/.env.production は gitignore なのでランナー上に無い。
-      # 本番 URL はここから渡す（秘密ではないので secrets ではなく vars）
-      - run: nlx turbo run build --filter=@placeastro/web
-        env:
-          VITE_API_URL: ${{ vars.VITE_API_URL }}
-      - uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: apps/web
           command: deploy --env production
