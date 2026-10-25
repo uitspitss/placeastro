@@ -1,19 +1,23 @@
-import { client } from '@/lib/client';
-import { createQueryKey } from '@/lib/query-key';
-import { useQuery } from '@tanstack/react-query';
 import { ExternalLink, Loader2 } from 'lucide-react';
 
-export const PlaceImageList = () => {
-  const {
-    data: placeImages,
-    isPending: isPendingPlaceImages,
-    error,
-  } = useQuery({
-    queryKey: createQueryKey('placeImage').list(),
-    queryFn: () => client.placeImages.list(),
-  });
+type PlaceImageListItem = {
+  id: string;
+  url: string;
+  credits: string;
+  sourceUrl: string;
+};
 
-  if (isPendingPlaceImages) {
+export type PlaceImageListState =
+  | { status: 'pending' }
+  | { status: 'error'; error: Error }
+  | { status: 'success'; images: PlaceImageListItem[] };
+
+type Props = {
+  state: PlaceImageListState;
+};
+
+export const PlaceImageList = ({ state }: Props) => {
+  if (state.status === 'pending') {
     return (
       <div className="flex items-center gap-2 py-12 text-sm text-muted-foreground">
         <Loader2 className="h-4 w-4 animate-spin" />
@@ -22,15 +26,15 @@ export const PlaceImageList = () => {
     );
   }
 
-  if (error instanceof Error) {
+  if (state.status === 'error') {
     return (
       <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3">
-        <p className="text-sm text-destructive">Error: {error.message}</p>
+        <p className="text-sm text-destructive">Error: {state.error.message}</p>
       </div>
     );
   }
 
-  if (!placeImages || placeImages.length === 0) {
+  if (state.images.length === 0) {
     return (
       <div className="rounded-lg border border-border/50 bg-secondary/50 px-4 py-8 text-center">
         <p className="text-sm text-muted-foreground">
@@ -42,7 +46,7 @@ export const PlaceImageList = () => {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      {placeImages.map((image) => (
+      {state.images.map((image) => (
         <div
           key={image.id}
           className="code-card group overflow-hidden rounded-xl"

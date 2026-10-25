@@ -1,6 +1,11 @@
-import { PlaceImageList } from '@/components/place-image-list';
+import {
+  PlaceImageList,
+  type PlaceImageListState,
+} from '@/components/place-image-list';
 import { PlaceImageUploadForm } from '@/components/place-image-upload-form';
 import { getSession } from '@/lib/auth-client';
+import { placeImageQueries } from '@/lib/place-image-queries';
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/upload')({
@@ -14,6 +19,14 @@ export const Route = createFileRoute('/upload')({
 });
 
 function UploadPage() {
+  const placeImages = useQuery(placeImageQueries.list());
+  const catalog: PlaceImageListState =
+    placeImages.status === 'success'
+      ? { status: 'success', images: placeImages.data }
+      : placeImages.status === 'error'
+        ? { status: 'error', error: placeImages.error }
+        : { status: 'pending' };
+
   return (
     <div className="mx-auto max-w-5xl px-6 py-12">
       <div className="mb-10 flex flex-col gap-2">
@@ -33,7 +46,7 @@ function UploadPage() {
           <h2 className="mb-4 text-xs font-medium uppercase tracking-widest text-muted-foreground">
             Catalog
           </h2>
-          <PlaceImageList />
+          <PlaceImageList state={catalog} />
         </div>
       </div>
     </div>

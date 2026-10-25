@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import '@uppy/core/dist/style.min.css';
 import '@uppy/dashboard/dist/style.min.css';
 import { client } from '@/lib/client';
-import { createMutationKey, createQueryKey } from '@/lib/query-key';
+import { placeImageQueries } from '@/lib/place-image-queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createPlaceImageSchema } from '@placeastro/shared';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -38,7 +38,6 @@ export function PlaceImageUploadForm() {
   const [uppy] = useState(() => new Uppy());
   const files = useUppyState(uppy, (state) => state.files);
   const mutation = useMutation({
-    mutationKey: createMutationKey('placeImage').add(),
     mutationFn: async (data: SchemaType) => {
       const key = `${data.catalogue}/${crypto.randomUUID()}`;
 
@@ -75,7 +74,7 @@ export function PlaceImageUploadForm() {
         form.reset();
         uppy.clear();
         queryClient.invalidateQueries({
-          queryKey: createQueryKey('placeImage').list(),
+          queryKey: placeImageQueries.all(),
         });
       },
       onError: (error) => {
