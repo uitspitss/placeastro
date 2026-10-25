@@ -1,7 +1,5 @@
-import {
-  PlaceImageList,
-  toPlaceImageListState,
-} from '@/components/place-image-list';
+import { PlaceImageList } from '@/components/place-image-list';
+import { toPlaceImageListState } from '@/components/place-image-list-state';
 import { PlaceImageUploadForm } from '@/components/place-image-upload-form';
 import { getSession } from '@/lib/auth-client';
 import { placeImageQueries } from '@/lib/place-image-queries';

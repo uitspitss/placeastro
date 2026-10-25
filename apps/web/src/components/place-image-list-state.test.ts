@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { toPlaceImageListState } from './place-image-list';
+import { toPlaceImageListState } from './place-image-list-state';
 
 const image = {
   id: 'm16',
