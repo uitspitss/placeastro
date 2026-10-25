@@ -1,0 +1,38 @@
+{
+  "projectId": "87df0e49-226a-46b7-81fb-797b65f7642f",
+  "shape": "storybook",
+  "storybookConfigDir": "apps/web/.storybook",
+  "storybookStatic": ".design-sync/sb-reference",
+  "pkg": "@placeastro/ui",
+  "globalName": "Placeastro",
+  "entry": ".design-sync/ds-package/index.ts",
+  "buildCmd": "bash .design-sync/build.sh",
+  "titleMap": {
+    "button": "Button",
+    "carousel": "Carousel",
+    "tooltip": "Tooltip",
+    "copy-to-clipboard": "CopyToClipboard",
+    "gallery": "Gallery",
+    "place-image": null,
+    "place-image-list": null
+  },
+  "storyImports": {
+    "shim": [
+      "/packages/ui/src/button.tsx",
+      "/packages/ui/src/carousel.tsx",
+      "/packages/ui/src/tooltip.tsx",
+      "/apps/web/src/components/copy-to-clipboard.tsx",
+      "/apps/web/src/components/gallery.tsx"
+    ]
+  },
+  "provider": {
+    "component": "DarkTheme"
+  },
+  "overrides": {
+    "Tooltip": {
+      "cardMode": "single",
+      "primaryStory": "OpenOnHover"
+    }
+  },
+  "readmeHeader": ".design-sync/conventions.md"
+}
