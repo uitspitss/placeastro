@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "placeastro-api",
+  "name": "placeastro",
   "compatibility_date": "2024-09-23",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/index.ts",
@@ -51,9 +51,12 @@
   // Production environment
   "env": {
     "production": {
-      // 省くと wrangler は "placeastro-api-production" という別ワーカーを作る
-      "name": "placeastro-api",
-      "workers_dev": true,
+      // 省くと wrangler は "placeastro-production" という別ワーカーを作る
+      "name": "placeastro",
+      // 入口は routes の placeastro.u7s.dev だけにする。
+      // プレビューは本番の D1・R2・secrets で動くので開けない
+      "workers_dev": false,
+      "preview_urls": false,
       "vars": {
         "CORS_ORIGIN": "https://placeastro.u7s.dev",
         "BETTER_AUTH_URL": "https://placeastro.u7s.dev",
