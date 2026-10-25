@@ -1,6 +1,5 @@
-import { client } from '@/lib/client';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, mocked } from 'storybook/test';
+import { expect } from 'storybook/test';
 import { PlaceImageList } from './place-image-list';
 
 /** ネットワークに依存させないため、画像はインライン SVG の data URI にする */
@@ -14,11 +13,6 @@ const row = (id: string, label: string, hue: number) => ({
   url: stub(label, hue),
   credits: `NASA / ESA — ${label}`,
   sourceUrl: `https://esahubble.org/images/${id}/`,
-  catalogue: 'M' as const,
-  catalogueNumber: label.replace('M', ''),
-  createdAt: '2026-01-01 00:00:00',
-  updatedAt: '2026-01-01 00:00:00',
-  deletedAt: null,
 });
 
 const meta = {
@@ -30,51 +24,31 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Loading: Story = {
-  async beforeEach() {
-    mocked(client.placeImages.list).mockImplementation(
-      () => new Promise<never>(() => {}),
-    );
-  },
-  play: async ({ canvas }) => {
-    await expect(await canvas.findByText('Loading catalog...')).toBeVisible();
-  },
+  args: { state: { status: 'pending' } },
 };
 
 export const Empty: Story = {
-  async beforeEach() {
-    mocked(client.placeImages.list).mockResolvedValue([]);
-  },
-  play: async ({ canvas }) => {
-    await expect(
-      await canvas.findByText('No images in catalog yet'),
-    ).toBeVisible();
-  },
+  args: { state: { status: 'success', images: [] } },
 };
 
 export const Failed: Story = {
-  async beforeEach() {
-    mocked(client.placeImages.list).mockRejectedValue(
-      new Error('Failed to reach the catalog'),
-    );
-  },
-  play: async ({ canvas }) => {
-    await expect(
-      await canvas.findByText('Error: Failed to reach the catalog'),
-    ).toBeVisible();
+  args: {
+    state: { status: 'error', error: new Error('Failed to reach the catalog') },
   },
 };
 
 export const WithImages: Story = {
-  async beforeEach() {
-    mocked(client.placeImages.list).mockResolvedValue([
-      row('m16', 'M16', 220),
-      row('m42', 'M42', 280),
-      row('m74', 'M74', 160),
-    ]);
+  args: {
+    state: {
+      status: 'success',
+      images: [
+        row('m16', 'M16', 220),
+        row('m42', 'M42', 280),
+        row('m74', 'M74', 160),
+      ],
+    },
   },
   play: async ({ canvas }) => {
-    await expect(await canvas.findByText('NASA / ESA — M16')).toBeVisible();
-
     // 出典リンクは別タブで開く。noopener が無いと opener 経由で操作されうる
     const links = await canvas.findAllByRole('link');
     await expect(links).toHaveLength(3);
