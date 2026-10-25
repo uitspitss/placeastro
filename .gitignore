@@ -95,3 +95,12 @@ docs/superpowers/
 
 *storybook.log
 storybook-static
+
+# design-sync（.design-sync/ の残りは再同期で使うので追跡する）
+.design-sync/sb-reference/
+.design-sync/learnings/
+.design-sync/.cache/
+.design-sync/node_modules
+.ds-sync/
+ds-bundle/
+.design-sync/ds-package/types/
