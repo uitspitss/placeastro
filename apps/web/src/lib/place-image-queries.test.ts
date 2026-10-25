@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { client } from './client';
 import { placeImageQueries } from './place-image-queries';
 
@@ -8,11 +8,13 @@ vi.mock('./client', () => ({
 }));
 
 describe('placeImageQueries.list', () => {
+  const queryClient = new QueryClient();
+  afterEach(() => queryClient.clear());
+
   it('queryFn は client.placeImages.list の結果を返す', async () => {
     const rows = [{ id: 'm16' }];
     vi.mocked(client.placeImages.list).mockResolvedValue(rows as never);
 
-    const queryClient = new QueryClient();
     await expect(
       queryClient.fetchQuery(placeImageQueries.list()),
     ).resolves.toEqual(rows);
@@ -23,7 +25,6 @@ describe('placeImageQueries.list', () => {
   it('all() で invalidate すると一覧が古くなる', async () => {
     vi.mocked(client.placeImages.list).mockResolvedValue([]);
 
-    const queryClient = new QueryClient();
     await queryClient.fetchQuery(placeImageQueries.list());
     await queryClient.invalidateQueries({ queryKey: placeImageQueries.all() });
 

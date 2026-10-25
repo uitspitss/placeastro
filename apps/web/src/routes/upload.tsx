@@ -1,6 +1,6 @@
 import {
   PlaceImageList,
-  type PlaceImageListState,
+  toPlaceImageListState,
 } from '@/components/place-image-list';
 import { PlaceImageUploadForm } from '@/components/place-image-upload-form';
 import { getSession } from '@/lib/auth-client';
@@ -20,12 +20,6 @@ export const Route = createFileRoute('/upload')({
 
 function UploadPage() {
   const placeImages = useQuery(placeImageQueries.list());
-  const catalog: PlaceImageListState =
-    placeImages.status === 'success'
-      ? { status: 'success', images: placeImages.data }
-      : placeImages.status === 'error'
-        ? { status: 'error', error: placeImages.error }
-        : { status: 'pending' };
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12">
@@ -46,7 +40,7 @@ function UploadPage() {
           <h2 className="mb-4 text-xs font-medium uppercase tracking-widest text-muted-foreground">
             Catalog
           </h2>
-          <PlaceImageList state={catalog} />
+          <PlaceImageList state={toPlaceImageListState(placeImages)} />
         </div>
       </div>
     </div>
