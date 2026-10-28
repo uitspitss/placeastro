@@ -13,7 +13,7 @@
     "tooltip": "Tooltip",
     "copy-to-clipboard": "CopyToClipboard",
     "gallery": "Gallery",
-    "place-image-list": null
+    "place-image-list": "PlaceImageList"
   },
   "storyImports": {
     "shim": [
@@ -21,7 +21,8 @@
       "/packages/ui/src/carousel.tsx",
       "/packages/ui/src/tooltip.tsx",
       "/apps/web/src/components/copy-to-clipboard.tsx",
-      "/apps/web/src/components/gallery.tsx"
+      "/apps/web/src/components/gallery.tsx",
+      "/apps/web/src/components/place-image-list.tsx"
     ]
   },
   "provider": {
@@ -31,6 +32,9 @@
     "Tooltip": {
       "cardMode": "single",
       "primaryStory": "OpenOnHover"
+    },
+    "PlaceImageList": {
+      "viewport": "900x1000"
     }
   },
   "readmeHeader": ".design-sync/conventions.md"
