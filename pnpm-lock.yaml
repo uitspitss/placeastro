@@ -23,7 +23,7 @@ catalogs:
       version: 0.45.4
     hono:
       specifier: ^4.13.7
-      version: 4.13.14
+      version: 4.13.16
     neverthrow:
       specifier: ^8.2.0
       version: 8.2.0
@@ -100,7 +100,7 @@ importers:
         version: 10.66.0(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/core@2.12.0(@opentelemetry/api@1.10.0))
       '@sentry/hono':
         specifier: 'catalog:'
-        version: 10.66.0(@cloudflare/workers-types@4.20260702.1)(@sentry/cloudflare@10.66.0(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/core@2.12.0(@opentelemetry/api@1.10.0)))(@sentry/node@10.66.0(@opentelemetry/core@2.12.0(@opentelemetry/api@1.10.0)))(hono@4.13.14)
+        version: 10.66.0(@cloudflare/workers-types@4.20260702.1)(@sentry/cloudflare@10.66.0(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/core@2.12.0(@opentelemetry/api@1.10.0)))(@sentry/node@10.66.0(@opentelemetry/core@2.12.0(@opentelemetry/api@1.10.0)))(hono@4.13.16)
       better-auth:
         specifier: ^1.6.13
         version: 1.7.18(@opentelemetry/api@1.10.0)(drizzle-kit@0.31.11)(drizzle-orm@0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.10.0)(@types/better-sqlite3@7.6.13)(better-sqlite3@11.10.0)(kysely@0.28.19)(postgres@3.4.5))(mongodb@7.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(vitest@4.1.12)
@@ -109,7 +109,7 @@ importers:
         version: 0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.10.0)(@types/better-sqlite3@7.6.13)(better-sqlite3@11.10.0)(kysely@0.28.19)(postgres@3.4.5)
       hono:
         specifier: 'catalog:'
-        version: 4.13.14
+        version: 4.13.16
       neverthrow:
         specifier: 'catalog:'
         version: 8.2.0
@@ -206,7 +206,7 @@ importers:
         version: 8.6.0(react@19.0.0)
       hono:
         specifier: 'catalog:'
-        version: 4.13.14
+        version: 4.13.16
       lucide-react:
         specifier: ^0.487.0
         version: 0.487.0(react@19.0.0)
@@ -4094,8 +4094,8 @@ packages:
   hermes-parser@0.25.1:
     resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==}
 
-  hono@4.13.14:
-    resolution: {integrity: sha512-yhRLQ21U6qa9Hsu2N7Qcbh8tE+WKEcoErjIo56LeSGiGXGp9sA7UpE86Ui9uexb61KakiGwuHMn2QdV7w6i6kQ==}
+  hono@4.13.16:
+    resolution: {integrity: sha512-AOLOEhvrV+iH92xXCnFr/5+3KjPKcI3xP63XJtX5spAnkznPdHijlIsUTpi7/9EhWqrTCekw5c5zh1K+YsVw7A==}
     engines: {node: '>=16.9.0'}
 
   html-escaper@2.0.2:
@@ -7391,11 +7391,11 @@ snapshots:
     dependencies:
       '@sentry/conventions': 0.16.0
 
-  '@sentry/hono@10.66.0(@cloudflare/workers-types@4.20260702.1)(@sentry/cloudflare@10.66.0(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/core@2.12.0(@opentelemetry/api@1.10.0)))(@sentry/node@10.66.0(@opentelemetry/core@2.12.0(@opentelemetry/api@1.10.0)))(hono@4.13.14)':
+  '@sentry/hono@10.66.0(@cloudflare/workers-types@4.20260702.1)(@sentry/cloudflare@10.66.0(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/core@2.12.0(@opentelemetry/api@1.10.0)))(@sentry/node@10.66.0(@opentelemetry/core@2.12.0(@opentelemetry/api@1.10.0)))(hono@4.13.16)':
     dependencies:
       '@opentelemetry/api': 1.10.0
       '@sentry/core': 10.66.0
-      hono: 4.13.14
+      hono: 4.13.16
     optionalDependencies:
       '@cloudflare/workers-types': 4.20260702.1
       '@sentry/cloudflare': 10.66.0(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/core@2.12.0(@opentelemetry/api@1.10.0))
@@ -9047,7 +9047,7 @@ snapshots:
     dependencies:
       hermes-estree: 0.25.1
 
-  hono@4.13.14: {}
+  hono@4.13.16: {}
 
   html-escaper@2.0.2: {}
 
