@@ -1,5 +1,5 @@
 [tools]
 node = "22.14.0"
 # package.json の packageManager と揃える（ズレると pnpm が自己切替する）
-pnpm = "10.9.0"
+pnpm = "10.34.5"
 "npm:@antfu/ni" = "30.3.0"
